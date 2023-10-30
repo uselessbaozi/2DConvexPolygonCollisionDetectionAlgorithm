@@ -32,14 +32,14 @@ bool GetOverlappinglength(const std::vector<float>& p1, const std::vector<float>
 	else if (p1min <= p2min && p2max <= p1max)
 	{
 		if (p2min - p1min < p1max - p2max)
-			length = p2min - p2max;
+			length = p1min - p2max;
 		else
-			length = p2max - p2min;
+			length = p1max - p2min;
 	}
 	else if (p2min <= p1min && p1max <= p2max)
 	{
 		if (p2min - p1min < p1max - p2max)
-			length = p1max - p1min;
+			length = p2max - p1min;
 		else
 			length = p1min - p1max;
 	}
