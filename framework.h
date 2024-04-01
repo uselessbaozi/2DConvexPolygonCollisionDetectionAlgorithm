@@ -25,6 +25,8 @@
 #include <codecvt>
 #include <random>
 
+#include <ThreadPool.h>
+
 namespace BasicGraphics
 {
 	struct ColorF
@@ -99,41 +101,60 @@ namespace BasicGraphics
 	};
 	struct Physics
 	{
+		Physics(bool stationary, float m = 1.0f) :stationary(stationary), m(m), v{ 0,0 }, a{ 0,0 }{}
+
 		float m;
 		VectorF v;
 		VectorF a;
 		bool stationary;
 	};
-	struct Rectangle
+	struct MutexWithMove
 	{
+		MutexWithMove() = default;
+		MutexWithMove(MutexWithMove&&) :mtx() {}
+
+		std::mutex mtx;
+	};
+	struct Graphics
+	{
+		Graphics(PointF address, bool stationary, float m = 1.0f) 
+			:address(address), color(ColorF{ 0.5,0.5,0.5,1.0 }), phy(stationary, m){}
+
+		MutexWithMove mtx;
 		PointF address;
+		ColorF color;
+		Physics phy;
+	};
+	struct Rectangle :public Graphics
+	{
+		Rectangle(float left, float top, float right, float bottom, PointF address, bool stationary, float m = 1.0f)
+			:left(left), top(top), right(right), bottom(bottom), Graphics(address, stationary, m) {}
+
 		float left;
 		float top;
 		float right;
 		float bottom;
-		ColorF color;
-		Physics phy;
 
 		operator D2D_RECT_F()
 		{
 			return D2D_RECT_F{ address.x + left,address.y + top,address.x + right,address.y + bottom };
 		}
 	};
-	struct ConvexPolygon
+	struct ConvexPolygon :public Graphics
 	{
-		PointF address;
+		ConvexPolygon(std::vector<VectorF> vertex, PointF address, bool stationary, float m = 1.0f)
+			:vertex(vertex), Graphics(address, stationary, m) {}
+
 		std::vector<VectorF> vertex;
-		ColorF color;
-		Physics phy;
 
 		CComPtr<ID2D1PathGeometry> pGeometry = nullptr;
 	};
-	struct Circle
+	struct Circle :public Graphics
 	{
-		PointF address;
+		Circle(float radius, PointF address, bool stationary, float m = 1.0f)
+			:radius(radius), Graphics(address, stationary, m) {}
+
 		float radius;
-		ColorF color;
-		Physics phy;
 
 		operator D2D1_ELLIPSE()
 		{

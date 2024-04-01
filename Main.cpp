@@ -32,6 +32,7 @@ int	WINAPI wWinMain(
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd)
 {
+	ThreadPool::Pool pool;
 	Ground ground;
 	ConvexPolygonCollision demo(hInstance);
 	demo.Initialize();

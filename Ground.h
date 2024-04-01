@@ -25,4 +25,6 @@ public:
 	std::vector<BasicGraphics::Circle> GroundCircle;
 	std::vector<BasicGraphics::Rectangle> GroundRectangle;
 	std::vector<BasicGraphics::ConvexPolygon> GroundConvexPolygon;
+
+	ThreadPool::Pool* pool;
 };

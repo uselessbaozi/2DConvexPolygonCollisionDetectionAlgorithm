@@ -419,35 +419,44 @@ bool Collision::RectRect(const BasicGraphics::Rectangle& r1, const BasicGraphics
 	}
 }
 
-void Collision::CollisionResponse(BasicGraphics::PointF& g1Addr, BasicGraphics::Physics& g1Phy, BasicGraphics::PointF& g2Addr, BasicGraphics::Physics& g2Phy, const BasicGraphics::VectorF depth)
+bool Collision::RoughCollision(const BasicGraphics::PointF& p1, const BasicGraphics::PointF& p2, const int MaxBlock)
 {
-	if (g1Phy.stationary && g2Phy.stationary)
+	float dx(p1.x - p2.x), dy(p1.y - p2.y);
+	if (dx<-MaxBlock || dx>MaxBlock || dy<-MaxBlock || dy>MaxBlock)
+		return false;
+	else
+		return true;
+}
+
+void Collision::CollisionResponse(BasicGraphics::Graphics& g1, BasicGraphics::Graphics& g2, const BasicGraphics::VectorF depth)
+{
+	if (g1.phy.stationary && g2.phy.stationary)
 	{
 		return;
 	}
-	else if (g1Phy.stationary)
+	else if (g1.phy.stationary)
 	{
-		g2Addr = g2Addr + depth;
+		g2.address = g2.address + depth;
 	}
-	else if (g2Phy.stationary)
+	else if (g2.phy.stationary)
 	{
-		g1Addr = g1Addr - depth;
+		g1.address = g1.address - depth;
 	}
 	else
 	{
-		g1Addr = g1Addr - depth / 2.0;
-		g2Addr = g2Addr + depth / 2.0;
+		g1.address = g1.address - depth / 2.0;
+		g2.address = g2.address + depth / 2.0;
 	}
 
-	BasicGraphics::VectorF relativeVelocity(g2Phy.v - g1Phy.v);
+	BasicGraphics::VectorF relativeVelocity(g2.phy.v - g1.phy.v);
 	if (relativeVelocity * depth > 0)
 		return;
 
 	float e(0.5);
 	BasicGraphics::VectorF normal(depth / BasicGraphics::GetLength(depth));
 	float j(-(1.0 - e) * (relativeVelocity * normal));
-	j = j * (g1Phy.m + g2Phy.m);
+	j = j * (g1.phy.m + g2.phy.m);
 	BasicGraphics::VectorF impulse(normal * j);
-	g1Phy.v = g1Phy.v - impulse / g1Phy.m;
-	g2Phy.v = g2Phy.v - impulse / g2Phy.m;
+	g1.phy.v = g1.phy.v - impulse / g1.phy.m;
+	g2.phy.v = g2.phy.v - impulse / g2.phy.m;
 }

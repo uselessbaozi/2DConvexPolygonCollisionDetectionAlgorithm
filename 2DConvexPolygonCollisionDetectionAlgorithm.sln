@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2DConvexPolygonCollisionDetectionAlgorithm", "2DConvexPolygonCollisionDetectionAlgorithm.vcxproj", "{98FFC592-70DD-43CE-AA2F-8EA2DCA271CF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThreadPoolShare", "..\ThreadPoolShare\ThreadPoolShare.vcxitems", "{CDA24DF3-ABD7-41C5-BD0E-26053863FD37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,5 +29,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {783CB9B5-3638-4E26-9A7C-9A3C37B236DB}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\ThreadPoolShare\ThreadPoolShare.vcxitems*{98ffc592-70dd-43ce-aa2f-8ea2dca271cf}*SharedItemsImports = 4
+		..\ThreadPoolShare\ThreadPoolShare.vcxitems*{cda24df3-abd7-41c5-bd0e-26053863fd37}*SharedItemsImports = 9
 	EndGlobalSection
 EndGlobal

@@ -10,5 +10,6 @@ namespace Collision
 	bool PolygonRect(const BasicGraphics::ConvexPolygon& p1, const BasicGraphics::Rectangle& r2, BasicGraphics::VectorF& depth);
 	bool RectRect(const BasicGraphics::Rectangle& r1, const BasicGraphics::Rectangle& r2, BasicGraphics::VectorF& depth);
 
-	void CollisionResponse(BasicGraphics::PointF& g1Addr, BasicGraphics::Physics& g1Phy, BasicGraphics::PointF& g2Addr, BasicGraphics::Physics& g2Phy, const BasicGraphics::VectorF depth);
+	bool RoughCollision(const BasicGraphics::PointF& p1, const BasicGraphics::PointF& p2, const int MaxBlock);
+	void CollisionResponse(BasicGraphics::Graphics& g1, BasicGraphics::Graphics& g2, const BasicGraphics::VectorF depth);
 }
